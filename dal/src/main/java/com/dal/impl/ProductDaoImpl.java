@@ -1,5 +1,7 @@
 package com.dal.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -8,8 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.dal.ProductDao;
 import com.dal.domain.ProductDomain;
-
-import java.util.List;
 
 /**
  * DAO Implementation for {@link com.dal.ProductDao}
@@ -29,6 +29,9 @@ public class ProductDaoImpl implements ProductDao {
         this.entityManager = entityManager;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProductDomain getProduct(int id) {
 
@@ -36,10 +39,19 @@ public class ProductDaoImpl implements ProductDao {
         query.setParameter("id", id);
 
         List resultList = query.getResultList();
-        if(resultList.isEmpty()) {
+        if (resultList.isEmpty()) {
             return null;
         }
         else
-            return (ProductDomain)resultList.get(0);
+            return (ProductDomain) resultList.get(0);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ProductDomain> getAllProducts() {
+        Query query = entityManager.createQuery("FROM ProductDomain");
+        return query.getResultList();
     }
 }

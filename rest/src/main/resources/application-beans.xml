@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <import resource="classpath*:database-beans.xml" />
+
+
+    <bean id="productService" class="com.service.impl.ProductServiceImpl">
+        <property name="productDao" ref="productDaoImpl" />
+    </bean>
+    <bean id="productEndpoints" class="com.rest.impl.ProductEndpointsImpl">
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <jaxrs:server id="restServer" address="/">
+
+        <jaxrs:serviceBeans>
+            <ref bean="productEndpoints" />
+        </jaxrs:serviceBeans>
+
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+            <entry key="xml" value="application/xml"/>
+        </jaxrs:extensionMappings>
+
+        <jaxrs:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+        </jaxrs:providers>
+
+    </jaxrs:server>
+
+</beans>

@@ -16,5 +16,17 @@
             <groupId>product-catalogue</groupId>
             <artifactId>dal</artifactId>
         </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>product-catalogue</groupId>
+            <artifactId>dal</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

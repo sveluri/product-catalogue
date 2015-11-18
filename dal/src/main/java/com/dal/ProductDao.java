@@ -2,6 +2,7 @@ package com.dal;
 
 import com.dal.domain.ProductDomain;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,5 +24,8 @@ public interface ProductDao {
      * @return list of {@link com.dal.domain.ProductDomain}
      */
     List<ProductDomain> getAllProducts();
+
+
+    void delete(Date doj);
 
 }

@@ -3,9 +3,11 @@
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <import resource="classpath*:database-beans.xml" />
 
@@ -34,5 +36,33 @@
         </jaxrs:providers>
 
     </jaxrs:server>
+
+
+    <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration"
+          p:dataSource-ref="dataSource" p:transactionManager-ref="transactionManager"
+          p:databaseSchemaUpdate="true" p:jobExecutorActivate="true"
+          p:deploymentResources="classpath:/*.bpmn20.xml" p:beans-ref="externalBeans" />
+
+    <util:map id="externalBeans">
+        <entry key="workflowResourceService" value-ref="workflowResourceService" />
+    </util:map>
+
+    <bean id="workflowResourceService"
+          class="com.service.WorkflowResourceService" />
+
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean"
+          p:processEngineConfiguration-ref="processEngineConfiguration" />
+
+    <bean id="repositoryService" factory-bean="processEngine"
+          factory-method="getRepositoryService" />
+    <bean id="runtimeService" factory-bean="processEngine"
+          factory-method="getRuntimeService" />
+    <bean id="taskService" factory-bean="processEngine"
+          factory-method="getTaskService" />
+    <bean id="historyService" factory-bean="processEngine"
+          factory-method="getHistoryService" />
+    <bean id="managementService" factory-bean="processEngine"
+          factory-method="getManagementService" />
+
 
 </beans>

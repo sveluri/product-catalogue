@@ -1,6 +1,7 @@
 package com.dal.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Domain class For Product
@@ -14,6 +15,7 @@ public class ProductDomain {
     private String description;
     private int quantity;
     private double price;
+    private Date creationDate;
 
     public ProductDomain(){}
 
@@ -141,5 +143,23 @@ public class ProductDomain {
         sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();
+    }
+
+    /**
+     * Sets new creationDate.
+     *
+     * @param creationDate New value of creationDate.
+     */
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    /**
+     * Gets creationDate.
+     *
+     * @return Value of creationDate.
+     */
+    public Date getCreationDate() {
+        return creationDate;
     }
 }

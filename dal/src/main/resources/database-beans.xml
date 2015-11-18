@@ -12,6 +12,8 @@
     <context:component-scan base-package="com.dal.impl.**" />
     <context:annotation-config />
 
+    <bean id="productDao" class="com.dal.impl.ProductDaoImpl" />
+
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>

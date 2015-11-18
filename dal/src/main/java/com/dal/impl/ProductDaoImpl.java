@@ -1,5 +1,6 @@
 package com.dal.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,11 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import com.dal.ProductDao;
 import com.dal.domain.ProductDomain;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO Implementation for {@link com.dal.ProductDao}
  */
 @Repository
+@Transactional
 public class ProductDaoImpl implements ProductDao {
 
     @PersistenceContext(unitName = "productCatalogue")
@@ -53,5 +56,15 @@ public class ProductDaoImpl implements ProductDao {
     public List<ProductDomain> getAllProducts() {
         Query query = entityManager.createQuery("FROM ProductDomain");
         return query.getResultList();
+    }
+
+    @Override
+    public void delete(Date doj) {
+
+        Query query = entityManager.createQuery("DELETE FROM ProductDomain WHERE creationDate >= :date ");
+        query.setParameter("date", doj);
+
+        int resultList = query.executeUpdate();
+        System.out.println(resultList);
     }
 }
